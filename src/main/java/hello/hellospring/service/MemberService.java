@@ -5,12 +5,14 @@ import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.PropertyEditorSupport;
 import java.util.List;
 import java.util.Optional;
 
 //Command Test T 테스트만들
+@Transactional
 public class MemberService {
 
     //같은 repository 쓰기 위해 아래 constructor 생성
@@ -29,9 +31,17 @@ public class MemberService {
      * @return
      */
     public Long join(Member member) {
-        validateDuplicateMember(member); //중복 회원 검증
-        memberRepository.save(member);
-        return member.getId();
+//        long start = System.currentTimeMillis();
+//        try{
+            validateDuplicateMember(member); //중복 회원 검증
+            memberRepository.save(member);
+            return member.getId();
+//        } finally {
+//            long finish = System.currentTimeMillis();
+//            long timeMs = finish - start;
+//            System.out.println("join " + timeMs + "ms");
+//        }
+
     }
 
     /**
